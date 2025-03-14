@@ -1,0 +1,6 @@
+<configuration>
+    <input>
+        <net-file value="road.net.xml"/>
+        <additional-files value="detectors.add.xml"/>
+    </input>
+</configuration>

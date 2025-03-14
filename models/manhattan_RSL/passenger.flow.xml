@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2024-09-11 09:16:52.925624 by randomTrips.py v1_18_0+0000-03ecfdea036
+<configuration>
+    <net-file value="c:\Users\96551\OneDrive\TRANSIT\bin/../models/manhattan_RSL/roads.net.xml"/>
+    <output-trip-file value="c:\Users\96551\OneDrive\TRANSIT\bin/../models/manhattan_RSL//passenger.flow.xml"/>
+    <trip-attributes value="departPos='random' departSpeed='max'"/>
+    <vehicle-class value="passenger"/>
+    <jtrrouter value="True"/>
+    <end value="1.0"/>
+    <flows value="168"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vType id="passenger" vClass="passenger"/>
+    <flow id="passenger_0" begin="0" end="1" period="168" from="D0E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_1" begin="0" end="1" period="168" from="B2B3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_2" begin="0" end="1" period="168" from="D2D3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_3" begin="0" end="1" period="168" from="E1E2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_4" begin="0" end="1" period="168" from="C0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_5" begin="0" end="1" period="168" from="B1B0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_6" begin="0" end="1" period="168" from="A1A0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_7" begin="0" end="1" period="168" from="D0E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_8" begin="0" end="1" period="168" from="B1B0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_9" begin="0" end="1" period="168" from="D4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_10" begin="0" end="1" period="168" from="D4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_11" begin="0" end="1" period="168" from="B3C3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_12" begin="0" end="1" period="168" from="E3E2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_13" begin="0" end="1" period="168" from="A2B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_14" begin="0" end="1" period="168" from="E0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_15" begin="0" end="1" period="168" from="D4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_16" begin="0" end="1" period="168" from="C3B3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_17" begin="0" end="1" period="168" from="B4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_18" begin="0" end="1" period="168" from="D4E4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_19" begin="0" end="1" period="168" from="E0E1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_20" begin="0" end="1" period="168" from="D2C2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_21" begin="0" end="1" period="168" from="B1B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_22" begin="0" end="1" period="168" from="A2A3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_23" begin="0" end="1" period="168" from="A3A2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_24" begin="0" end="1" period="168" from="D0D1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_25" begin="0" end="1" period="168" from="B4B3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_26" begin="0" end="1" period="168" from="B2B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_27" begin="0" end="1" period="168" from="D0E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_28" begin="0" end="1" period="168" from="B0A0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_29" begin="0" end="1" period="168" from="B0A0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_30" begin="0" end="1" period="168" from="E4E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_31" begin="0" end="1" period="168" from="C3C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_32" begin="0" end="1" period="168" from="E0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_33" begin="0" end="1" period="168" from="B1B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_34" begin="0" end="1" period="168" from="B3B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_35" begin="0" end="1" period="168" from="B1A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_36" begin="0" end="1" period="168" from="E1E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_37" begin="0" end="1" period="168" from="D1C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_38" begin="0" end="1" period="168" from="E2E1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_39" begin="0" end="1" period="168" from="B2B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_40" begin="0" end="1" period="168" from="C3C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_41" begin="0" end="1" period="168" from="C4B4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_42" begin="0" end="1" period="168" from="C0B0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_43" begin="0" end="1" period="168" from="E4E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_44" begin="0" end="1" period="168" from="A2B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_45" begin="0" end="1" period="168" from="A3A2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_46" begin="0" end="1" period="168" from="D3E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_47" begin="0" end="1" period="168" from="A2A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_48" begin="0" end="1" period="168" from="E4E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_49" begin="0" end="1" period="168" from="E3E4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_50" begin="0" end="1" period="168" from="A0A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_51" begin="0" end="1" period="168" from="D1D2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_52" begin="0" end="1" period="168" from="B2B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_53" begin="0" end="1" period="168" from="A3A2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_54" begin="0" end="1" period="168" from="C1C2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_55" begin="0" end="1" period="168" from="E1E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_56" begin="0" end="1" period="168" from="C2C3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_57" begin="0" end="1" period="168" from="E2E1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_58" begin="0" end="1" period="168" from="B2C2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_59" begin="0" end="1" period="168" from="C4D4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_60" begin="0" end="1" period="168" from="D3D2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_61" begin="0" end="1" period="168" from="D3D4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_62" begin="0" end="1" period="168" from="A0A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_63" begin="0" end="1" period="168" from="A0B0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_64" begin="0" end="1" period="168" from="E1E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_65" begin="0" end="1" period="168" from="B3A3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_66" begin="0" end="1" period="168" from="E1E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_67" begin="0" end="1" period="168" from="A2A3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_68" begin="0" end="1" period="168" from="A2A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_69" begin="0" end="1" period="168" from="D3D2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_70" begin="0" end="1" period="168" from="C2B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_71" begin="0" end="1" period="168" from="B2B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_72" begin="0" end="1" period="168" from="C0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_73" begin="0" end="1" period="168" from="C3C2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_74" begin="0" end="1" period="168" from="B1A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_75" begin="0" end="1" period="168" from="E4E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_76" begin="0" end="1" period="168" from="C1C0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_77" begin="0" end="1" period="168" from="A3A4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_78" begin="0" end="1" period="168" from="B3C3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_79" begin="0" end="1" period="168" from="B1B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_80" begin="0" end="1" period="168" from="A2A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_81" begin="0" end="1" period="168" from="B1B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_82" begin="0" end="1" period="168" from="E0E1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_83" begin="0" end="1" period="168" from="B1C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_84" begin="0" end="1" period="168" from="B1B0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_85" begin="0" end="1" period="168" from="E2E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_86" begin="0" end="1" period="168" from="C1D1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_87" begin="0" end="1" period="168" from="D4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_88" begin="0" end="1" period="168" from="A2B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_89" begin="0" end="1" period="168" from="C0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_90" begin="0" end="1" period="168" from="D2D3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_91" begin="0" end="1" period="168" from="E4D4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_92" begin="0" end="1" period="168" from="C0C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_93" begin="0" end="1" period="168" from="E0E1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_94" begin="0" end="1" period="168" from="B0C0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_95" begin="0" end="1" period="168" from="C0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_96" begin="0" end="1" period="168" from="B1C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_97" begin="0" end="1" period="168" from="C1C0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_98" begin="0" end="1" period="168" from="C3C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_99" begin="0" end="1" period="168" from="E4E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_100" begin="0" end="1" period="168" from="E3E4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_101" begin="0" end="1" period="168" from="E0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_102" begin="0" end="1" period="168" from="C2B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_103" begin="0" end="1" period="168" from="C0C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_104" begin="0" end="1" period="168" from="B4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_105" begin="0" end="1" period="168" from="B2B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_106" begin="0" end="1" period="168" from="C1C2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_107" begin="0" end="1" period="168" from="E3E2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_108" begin="0" end="1" period="168" from="C3C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_109" begin="0" end="1" period="168" from="A4B4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_110" begin="0" end="1" period="168" from="E3E4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_111" begin="0" end="1" period="168" from="C3C2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_112" begin="0" end="1" period="168" from="A1B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_113" begin="0" end="1" period="168" from="C2C3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_114" begin="0" end="1" period="168" from="A4B4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_115" begin="0" end="1" period="168" from="A2A3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_116" begin="0" end="1" period="168" from="C4C3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_117" begin="0" end="1" period="168" from="B1B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_118" begin="0" end="1" period="168" from="E1E2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_119" begin="0" end="1" period="168" from="C4C3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_120" begin="0" end="1" period="168" from="C0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_121" begin="0" end="1" period="168" from="C2D2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_122" begin="0" end="1" period="168" from="B1A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_123" begin="0" end="1" period="168" from="B1C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_124" begin="0" end="1" period="168" from="D1D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_125" begin="0" end="1" period="168" from="B3B2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_126" begin="0" end="1" period="168" from="A2A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_127" begin="0" end="1" period="168" from="E4E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_128" begin="0" end="1" period="168" from="A2A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_129" begin="0" end="1" period="168" from="B2B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_130" begin="0" end="1" period="168" from="E1E0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_131" begin="0" end="1" period="168" from="B4B3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_132" begin="0" end="1" period="168" from="D4E4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_133" begin="0" end="1" period="168" from="C4D4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_134" begin="0" end="1" period="168" from="D1C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_135" begin="0" end="1" period="168" from="D4D3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_136" begin="0" end="1" period="168" from="D1D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_137" begin="0" end="1" period="168" from="A3B3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_138" begin="0" end="1" period="168" from="A3A2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_139" begin="0" end="1" period="168" from="B2B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_140" begin="0" end="1" period="168" from="D2D1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_141" begin="0" end="1" period="168" from="D0D1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_142" begin="0" end="1" period="168" from="C2C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_143" begin="0" end="1" period="168" from="E0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_144" begin="0" end="1" period="168" from="C0D0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_145" begin="0" end="1" period="168" from="A0A1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_146" begin="0" end="1" period="168" from="D0D1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_147" begin="0" end="1" period="168" from="D2E2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_148" begin="0" end="1" period="168" from="C1B1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_149" begin="0" end="1" period="168" from="A2A3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_150" begin="0" end="1" period="168" from="E2D2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_151" begin="0" end="1" period="168" from="D4E4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_152" begin="0" end="1" period="168" from="A4A3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_153" begin="0" end="1" period="168" from="B3A3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_154" begin="0" end="1" period="168" from="D3E3" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_155" begin="0" end="1" period="168" from="E1E2" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_156" begin="0" end="1" period="168" from="B1C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_157" begin="0" end="1" period="168" from="D3D4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_158" begin="0" end="1" period="168" from="C0C1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_159" begin="0" end="1" period="168" from="A4B4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_160" begin="0" end="1" period="168" from="E1D1" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_161" begin="0" end="1" period="168" from="D4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_162" begin="0" end="1" period="168" from="A0B0" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_163" begin="0" end="1" period="168" from="B3B4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_164" begin="0" end="1" period="168" from="D4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_165" begin="0" end="1" period="168" from="D4C4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_166" begin="0" end="1" period="168" from="D3D4" departPos='random' departSpeed='max' type="passenger"/>
+    <flow id="passenger_167" begin="0" end="1" period="168" from="E1D1" departPos='random' departSpeed='max' type="passenger"/>
+</routes>
