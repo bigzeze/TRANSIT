@@ -587,7 +587,7 @@ class Functions:
             reduce_factor = 1
             for edge in path:
                 if edgetypes[edge] == 'highway.motorway_link':
-                    reduce_factor = reduce_factor * 0.25
+                    reduce_factor = reduce_factor * 0.5
             path_reduce_factors.append(reduce_factor)
         # 基于累加
         # collection = {}
