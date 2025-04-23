@@ -8,6 +8,7 @@ from TrafficEvent import *
 from xml2csv import xml2csv
 from csv2dataset import csv2dataset
 from csv2text import csv2text
+from multiprocessing import Pool,cpu_count
 
 class TRANSIT(Functions):
     def __init__(self):
@@ -52,7 +53,7 @@ class TRANSIT(Functions):
         self.trajectoryCSVFile = None
         self.eventThreshold = None
 
-    def parse_args(self):
+    def parse_args(self):  # command line mode
         self.parser = argparse.ArgumentParser()
         # overall simulation config
         self.parser.add_argument('-m','--mode', type=str, default = 'generate') # mode: test, generate
@@ -114,7 +115,7 @@ class TRANSIT(Functions):
         self.parser.add_argument('--eventThreshold', type=int, default=0.5)
         self.evetThreshold = self.parser.parse_args().eventThreshold
 
-    def set_args(self,**kwargs):
+    def set_args(self,**kwargs):  # run.py mode
         '''
         set the arguments manually
         mode: test, generate
@@ -175,7 +176,7 @@ class TRANSIT(Functions):
         if self.mode == 'test':
             self.verbose = True
             logging.basicConfig(level=logging.INFO)
-        else:
+        if self.mode == 'generate':
             self.verbose = False
             logging.basicConfig(level=logging.ERROR)
 
@@ -186,16 +187,39 @@ class TRANSIT(Functions):
             self.anomalyPack = [SpeedLimit(self.sumoInterface,self.anomalyStart,self.anomalyEnd,self.anomalyPos,self.anomalySeverity)]
         elif self.anomaly == 'traffic_light_failure':
             self.anomalyPack = [TLFailure(self.sumoInterface,self.anomalyStart,self.anomalyEnd,self.anomalyPos,self.anomalySeverity)]
-
+        # multi-anoomalies can be supported by adding more anomaly in anomalyPack
     
     def apply_simulation(self):
         self.set_verbose()
-        self.roadFile = self.sce_model + 'road.net.xml'
-        self.detctorFile = self.sce_model + 'detectors.add.xml'
-        self.detctorOutFile = self.sce_model + 'detectors.out.xml'
-        self.routeFile = self.sce_model + 'routes.routes.xml'
+        self.setFilePath()
+        self.buildScenario()
+        if self.mode == 'test':
+            self.one_process_execute()
+        if self.mode == 'generate':
+            reserved_cpus = 2
+            for run in range(self.runs):
+                with Pool(processes=min(30,cpu_count()-reserved_cpus)) as p:
+                    rtns = []
+                    for rtn in p.starmap(self.one_process_execute,run):
+                        rtns.append(rtn)
+    
+    def setFilePath(self):
+        # input files
         if self.sce == 'real_world_streets' or self.sce == 'real_world_expressways' or self.sce == 'parallel':
             self.networkInput = self.inputPath + self.networkFile
+        # mid files
+        self.roadFile = self.sce_model + 'road.net.xml'
+        self.routeFile = self.sce_model + 'routes.routes.xml'
+        # test mode
+        if self.mode == 'test':
+            self.detctorFile = self.sce_model + 'detectors.add.xml'
+            self.detctorOutFile = self.sce_model + 'detectors.out.xml'
+        # generate mode
+        if self.mode == 'generate':
+            self.detectorFIle = [self.sce_model + 'detectors' + idx +'.add.xml' for idx in range(self.runs)]
+            self.detctorOutFile = [self.sce_model + 'detectors'+ idx +'.out.xml' for idx in range(self.runs)]
+            
+    def buildScenario(self):
         if self.sce == 'theoretical_streets':
             if not self.gridLength or not self.gridNumber:
                 logging.error('Please specify the grid length and number for the MMM model.')
@@ -209,18 +233,25 @@ class TRANSIT(Functions):
                 return
             if self.rebuild:
                 self.generate_realworld_configuartion()
-        if self.sce == 'real_world_expressways' or 'parallel':
+        if self.sce == 'real_world_expressways' or self.sce == 'parallel':
             if not self.networkFile:
                 logging.error('Please specify the network file for the real world scenario.')
                 return
             if self.rebuild:
                 self.generate_expressway_configureration()
+
+    def one_process_execute(self,idx=None):
         self.sumo_execution()
         self.data_processing()
+
     
     def generate_MMM_configuartion(self):
         self.manhattanRoadGenerator(self.roadFile,self.gridNumber,self.gridLength,self.gridLanes,True)
-        self.DetectorGenerator(self.roadFile,self.detctorFile,self.detectorFrequency,self.detectorThreshold,self.detectorSpacing)
+        if self.mode == 'test':
+            self.DetectorGenerator(self.roadFile,self.detctorFile,self.detctorOutFile,self.detectorFrequency,self.detectorThreshold,self.detectorSpacing)
+        if self.mode == 'generate':
+            for idx in range(self.runs):
+                self.DetectorGenerator(self.roadFile,self.detectorFIle[idx],self.detctorOutFile,self.detectorFrequency,self.detectorThreshold,self.detectorSpacing)
         self.streetFlowGenerator(self.roadFile,self.sce_model,self.busPerc,self.theta,True)
         self.flowFiles = ','.join(glob.glob(self.sce_model+'*.flow.xml'))
         self.streetRouteGenerator(self.roadFile,self.flowFiles,self.sce_model+'routes.routes.xml')
@@ -236,6 +267,7 @@ class TRANSIT(Functions):
         self.realWorldRoadGenerator(self.networkInput,self.roadFile)
         self.DetectorGenerator(self.roadFile,self.detctorFile,self.detectorFrequency,self.detectorThreshold,self.detectorSpacing)
         self.expresswayFlowGenerator(self.roadFile,self.routeFile,3000,self.busPerc,self.theta)
+
     def sumo_execution(self):
         if os.name == 'nt':
             sumoBinary = "sumo-gui"
@@ -245,40 +277,35 @@ class TRANSIT(Functions):
         self.tripInfoFile = self.sce_output + 'tripinfo.out.xml'
         self.trajectoryFile = self.sce_output + 'trajectory.out.xml'
         self.eventSequenceFile = self.sce_output + 'events.txt'
-        if self.mode == 'test':
-            if not self.trajectoryOutput:
-                self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,verbose=self.verbose,additional_file=self.detctorFile)
-            else:
-                self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,verbose=self.verbose,additional_file=self.detctorFile,netoutput_file=self.trajectoryFile)
-            self.packingAnomaly()
-            # for manually setted multianomalies
-            # self.anomalyPack = [SpeedLimit(self.sumoInterface,3000,6000,'C2D2',0.1),\
-            #                     TLFailure(self.sumoInterface,9000,12000,'C2',0.2),
-            #                     SpeedLimit(self.sumoInterface,15000,18000,'A3A4',0.1),\
-            #                     TLFailure(self.sumoInterface,18000,21000,'B2',0.2)
-            #                     ]
-            self.sumoInterface.closeSUMO()
-            self.sumoInterface.startSUMO()
-            self.sumoInterface.open_event_file(self.eventSequenceFile)
-            self.sumoInterface.simulation(0,self.simulationTime,self.anomalyPack)
-            self.sumoInterface.closeSUMO()
-            self.sumoInterface.close_event_file()
-        if self.mode == 'generate':
-            pass
+        if not self.trajectoryOutput:
+            self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,verbose=self.verbose,additional_file=self.detctorFile)
+        else:
+            self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,verbose=self.verbose,additional_file=self.detctorFile,netoutput_file=self.trajectoryFile)
+        self.packingAnomaly()
+        # for manually setted multianomalies
+        # self.anomalyPack = [SpeedLimit(self.sumoInterface,3000,6000,'C2D2',0.1),\
+        #                     TLFailure(self.sumoInterface,9000,12000,'C2',0.2),
+        #                     SpeedLimit(self.sumoInterface,15000,18000,'A3A4',0.1),\
+        #                     TLFailure(self.sumoInterface,18000,21000,'B2',0.2)
+        #                     ]
+        self.sumoInterface.closeSUMO()
+        self.sumoInterface.startSUMO()
+        self.sumoInterface.open_event_file(self.eventSequenceFile)
+        self.sumoInterface.simulation(0,self.simulationTime,self.anomalyPack)
+        self.sumoInterface.closeSUMO()
+        self.sumoInterface.close_event_file()
+
     def data_processing(self):
-        if self.mode == 'test':
-            self.detectorCSVFile = self.sce_output+'detectors.csv'
-            self.trajectoryCSVFile = self.sce_output+'trajectory.csv'
-            self.eventSequenceFile = self.sce_output+'events.txt'
-            self.detectorNameFile = self.sce_output+'nodes.npy'
-            self.detectorDataFile = self.sce_output+'detectors.npy'
-            xml2csv(self.detctorOutFile,self.detectorCSVFile)
-            csv2dataset(self.detectorCSVFile,self.roadFile)
-            if self.trajectoryOutput:
-                xml2csv(self.trajectoryFile,self.trajectoryCSVFile)
-                csv2text(self.detectorNameFile,self.detectorDataFile,self.trajectoryCSVFile,self.eventSequenceFile,self.roadFile,self.eventThreshold)
-        if self.mode == 'generate':
-            pass
+        self.detectorCSVFile = self.sce_output+'detectors.csv'
+        self.trajectoryCSVFile = self.sce_output+'trajectory.csv'
+        self.eventSequenceFile = self.sce_output+'events.txt'
+        self.detectorNameFile = self.sce_output+'nodes.npy'
+        self.detectorDataFile = self.sce_output+'detectors.npy'
+        xml2csv(self.detctorOutFile,self.detectorCSVFile)
+        csv2dataset(self.detectorCSVFile,self.roadFile)
+        if self.trajectoryOutput:
+            xml2csv(self.trajectoryFile,self.trajectoryCSVFile)
+            csv2text(self.detectorNameFile,self.detectorDataFile,self.trajectoryCSVFile,self.eventSequenceFile,self.roadFile,self.eventThreshold)
 
 if __name__ == '__main__':
     app = TRANSIT()

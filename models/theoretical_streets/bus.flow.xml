@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-01-14 16:15:20.838181 by randomTrips.py v1_16_0+0000-94ec4c6cd72
+<!-- generated on 2025-04-23 10:28:32.039785 by randomTrips.py v1_18_0+0000-03ecfdea036
 <configuration>
-    <begin value="0"/>
-    <end value="1"/>
-    <flows value="20"/>
-    <jtrrouter value="True"/>
-    <net-file value="h:\TRANSIT\bin/../models/theoretical_streets/road.net.xml"/>
+    <net-file value="d:\TRANSIT\src/../models/theoretical_streets/road.net.xml"/>
+    <output-trip-file value="d:\TRANSIT\src/../models/theoretical_streets//bus.flow.xml"/>
     <trip-attributes value="departPos='random' departSpeed='max'"/>
-    <output-trip-file value="h:\TRANSIT\bin/../models/theoretical_streets//bus.flow.xml"/>
     <vehicle-class value="bus"/>
+    <jtrrouter value="True"/>
+    <end value="1.0"/>
+    <flows value="20"/>
 </configuration>
 -->
 
