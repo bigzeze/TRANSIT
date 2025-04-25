@@ -37,7 +37,6 @@ if __name__ == '__main__':
             except ValueError:
                 pass
 
-    print(configure)
     app.set_args(**configure)
     app.check_paths()
     app.apply_simulation()

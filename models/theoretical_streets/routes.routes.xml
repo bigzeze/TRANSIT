@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-04-23 10:28:32 by Eclipse SUMO jtrrouter Version 1.18.0
+<!-- generated on 2025-04-25 17:31:00 by Eclipse SUMO jtrrouter Version 1.18.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/jtrrouterConfiguration.xsd">
 
     <input>
-        <net-file value="d:\TRANSIT\src/../models/theoretical_streets/road.net.xml"/>
-        <route-files value="d:\TRANSIT\src/../models/theoretical_streets\bus.flow.xml,d:\TRANSIT\src/../models/theoretical_streets\passenger.flow.xml"/>
+        <net-file value="D:\TRANSIT\src/../models/theoretical_streets/road.net.xml"/>
+        <route-files value="D:\TRANSIT\src/../models/theoretical_streets\bus.flow.xml,D:\TRANSIT\src/../models/theoretical_streets\passenger.flow.xml"/>
     </input>
 
     <output>
-        <output-file value="d:\TRANSIT\src/../models/theoretical_streets/routes.routes.xml"/>
+        <output-file value="D:\TRANSIT\src/../models/theoretical_streets/routes.routes.xml"/>
         <named-routes value="true"/>
     </output>
 
