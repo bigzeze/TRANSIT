@@ -232,10 +232,9 @@ class Functions:
             self.logger.error('Network build failed!')
         self.logger.info('{0:-^50}'.format(''))
 
-    def DetectorGenerator(self,netfile,savefile,outfile,freq,threshold,spacing):
+    def DetectorGenerator(self,netfile,savefile,freq,threshold,spacing):
         '''
         netfile: network file path
-        outfile: detector output file path
         freq: frequency of the detector
         threshold: minimum length of the road
         spacing: spacing between detectors
@@ -598,8 +597,8 @@ class Functions:
         #             collection[edge] = path_minlane[idx]/lanenumbers[path[0]]
         #         else:
         #             collection[edge] = collection[edge] + path_minlane[idx]
-        for i in zip(flows,path_reduce_factors):
-            print(i)
+        #for i in zip(flows,path_reduce_factors):
+        #    print(i)
         capacitys = []
         for idx,path in enumerate(flows):
             pathc = []

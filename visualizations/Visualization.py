@@ -8,7 +8,10 @@ from matplotlib import cm
 import math
 import numpy as np
 import pandas as pd
-
+import cartopy.io.img_tiles as cimgt
+import cartopy.crs as ccrs
+from mpl_toolkits.mplot3d import Axes3D
+import sumolib
 
 class Node:
     def __init__(self,x:float,y:float,id:str=''):
@@ -22,13 +25,11 @@ class Node:
         return "("+self.id+",pos:("+str(self.x)+","+str(self.y)+"))"
     
 class Edge:
-    def __init__(self,id,fr:Node,to:Node,bias=5):
+    def __init__(self,id,fr:Node,to:Node,bias=0):
         self.id = id
         self.fr = fr
         self.to = to
         self.bias = bias
-        self.fixed_fr = None
-        self.fixed_to = None
         self.max_speed = None
         self.pass_points = []
         self.fixed_points = []
@@ -40,13 +41,7 @@ class Edge:
     def set_max_speed(self,maxspeed):
         self.max_speed = maxspeed
     
-    def set_pass_points(self,shape:str):
-        points = shape.split(' ')
-        pass_points = []
-        for point in points:
-            if point:
-                x,y = point.split(',')
-                pass_points.append(Node(float(x),float(y)))
+    def set_pass_points(self,pass_points:list):
         self.pass_points = pass_points
         self.fix_edge_pos()
 
@@ -94,12 +89,11 @@ class Edge:
             fixed_start,fixed_end = fix_points(start,end)
             self.fixed_points[idx] = fixed_start
             self.fixed_points[idx+1] = fixed_end
-        self.fixed_fr,self.fixed_to = fix_points(self.fr,self.to)
     
     def get_length(self):
         return math.sqrt((self.fr.x-self.to.x)**2+(self.fr.y-self.to.y)**2)
     def __repr__(self):
-        return f'(origin:{self.fr}->{self.to}'+f' ,fixed:{self.fixed_points}->{self.fixed_points})'
+        return f'(origin:{self.fr}->{self.to}'+f' ,fixed_points:{self.fixed_points})'
 
 class Graph:
     def __init__(self,bias=5):
@@ -116,9 +110,9 @@ class Graph:
     def add_edge(self,edge:Edge):
         self.edges[edge.id] = edge
     
-    def add_edge(self,id:str,fr:str,to:str,shape:str):
+    def add_edge(self,id:str,fr:str,to:str,pass_points:list):
         self.edges[id] = Edge(id,self.nodes[fr],self.nodes[to])
-        self.edges[id].set_pass_points(shape)
+        self.edges[id].set_pass_points(pass_points)
     
     def get_border(self):
         min_x = min([node.x for node in self.nodes.values()])
@@ -153,7 +147,6 @@ class Visualization:
         self.anomalyEnd = None
         self.injectPos = None
         self.scatterPos = None
-
     def check_paths(self):
         self.path = os.path.dirname(os.path.abspath(__file__)) + '/'
         models = self.path + '../models/'
@@ -198,7 +191,6 @@ class Visualization:
         self.scatterPos = kwargs.get('scatterPos',self.scatterPos)
         if self.anomaly == 'speed_limit':
             self.scatterPos = self.injectPos
-
     
     def load_data(self):
         self.dataFile = self.sce_output + 'detectors.npy'
@@ -215,11 +207,16 @@ class Visualization:
             trajectory['vehicle_id'] = trajectory['vehicle_id'].apply(lambda x:x.split('_')[0])
             self.trajectory = trajectory.groupby('vehicle_id')
 
-
+    def position_convert(self,x,y):
+        lon,lat = self.libnet.convertXY2LonLat(x,y)
+        return lon,lat
     def generate_graph(self):
         self.check_paths()
         self.graph = Graph()
         self.load_data()
+
+        if 'real_world' in self.sce or 'parallel' in self.sce:
+            self.libnet = sumolib.net.readNet(self.netfile)
 
         dom = xml.dom.minidom.parse(self.netfile)
         root = dom.documentElement
@@ -233,6 +230,8 @@ class Visualization:
             id = node.getAttribute('id')
             x = eval(node.getAttribute('x'))
             y = eval(node.getAttribute('y'))
+            if 'real_world' in self.sce or 'parallel' in self.sce:
+                x,y = self.position_convert(x,y)
             self.graph.add_node(id,x,y)
         for edge in edges:
             id = edge.getAttribute('id')
@@ -246,24 +245,48 @@ class Visualization:
                 continue
             if fc != '':
                 continue
+            def shape2points(sp):
+                points = sp.split(' ')
+                pass_points = []
+                for point in points:
+                    if point:
+                        x,y = point.split(',')
+                        x,y = float(x),float(y)
+                        if 'real_world' in self.sce or 'parallel' in self.sce:
+                            x,y = self.position_convert(x,y)
+                        pass_points.append(Node(x,y))
+                if pass_points:
+                    return pass_points
+                else:
+                    return [Node(self.graph.nodes[fr].x,self.graph.nodes[fr].y),Node(self.graph.nodes[to].x,self.graph.nodes[to].y)]
+            pass_points = shape2points(sp)
             lanes = edge.getElementsByTagName("lane")
             maxspeed = 0
             for lane in lanes:
                 maxspeed = max(eval(lane.getAttribute("speed")),maxspeed)
-            self.graph.add_edge(id,fr,to,sp)
+            self.graph.add_edge(id,fr,to,pass_points)
             self.graph.edges[id].set_max_speed(maxspeed)
 
     def cal_edge_pos(self,edge_id,pos):
-        edge = self.graph.edges[edge_id]
-        total_length = edge.get_length()
-        perc = min(max(0,pos/total_length),0.99)
-        return edge.fr.x+perc*(edge.to.x-edge.fr.x),edge.fr.y+perc*(edge.to.y-edge.fr.y)
+        if 'real_world' in self.sce or 'parallel' in self.sce:
+            x,y = sumolib.geomhelper.positionAtShapeOffset(self.libnet.getLane(edge_id+'_0').getShape(), pos)
+            return self.libnet.convertXY2LonLat(x, y)
+        else:
+            edge = self.graph.edges[edge_id]
+            total_length = edge.get_length()
+            perc = min(max(0,pos/total_length),0.99)
+            return edge.fr.x+perc*(edge.to.x-edge.fr.x),edge.fr.y+perc*(edge.to.y-edge.fr.y)
         
     def show_graph(self,steps):
-        fig = plt.figure(figsize=(10, 10), dpi= 80)
+        fig = plt.figure(figsize=(10, 3), dpi= 300)
         for idx,step in enumerate(steps):
-            rows = int(math.sqrt(len(steps)))
-            ax = fig.add_subplot(rows,rows,idx+1)
+            #rows = int(math.sqrt(len(steps)))
+            rows = len(steps)
+            cols = 1
+            if 'real_world' in self.sce or 'parallel' in self.sce:
+                ax = fig.add_subplot(cols,rows,idx+1,projection=ccrs.PlateCarree())
+            else:
+                ax = fig.add_subplot(cols,rows,idx+1)
             # draw nodes
             ax.axis('off')
             ax.set_aspect(1)
@@ -275,16 +298,28 @@ class Visualization:
             #for _,node in self.graph.nodes.items():
                 #circle = plt.Circle((node.x,node.y),color='black',radius=bias)
                 #ax.add_patch(circle)
+            # drawbasemap
+            if 'real_world' in self.sce or 'parallel' in self.sce:
+                backmap=cimgt.OSM()
+                ax.add_image(backmap, 15)
+                expandx = 0.1*(max_x-min_x)
+                expandy = 0.1*(max_y-min_y)
+                extent = [min_x-expandx,max_x+expandx,min_y-expandy,max_y+expandy]
+                ax.set_extent(extent,crs=ccrs.PlateCarree())
+                # sel_edge = self.graph.edges['1138642069']
+                # for idx in range(len(sel_edge.fixed_points)-1):
+                #     ax.add_line(plt.Line2D([sel_edge.fixed_points[idx].x,sel_edge.fixed_points[idx+1].x],[sel_edge.fixed_points[idx].y,sel_edge.fixed_points[idx+1].y]))
+
             def draw_circle():
                 if self.anomaly == 'speed_limit':
                     edge = self.graph.edges[self.injectPos]
-                    x = (edge.fixed_fr.x + edge.fixed_to.x)/2
-                    y = (edge.fixed_fr.y + edge.fixed_to.y)/2
+                    x = (edge.fr.x + edge.to.x)/2
+                    y = (edge.fr.y + edge.to.y)/2
                 if self.anomaly == 'traffic_light_failure':
                     node = self.graph.nodes[self.injectPos]
                     x = node.x
                     y = node.y
-                circle = plt.Circle((x,y),color='red',radius=2*bias)
+                circle = plt.Circle((x,y),color='red',radius=2*bias,zorder=5)
                 ax.add_patch(circle)
             if self.anomaly == 'speed_limit' or self.anomaly == 'traffic_light_failure':
                 draw_circle()
@@ -292,23 +327,24 @@ class Visualization:
                 if id in self.speed_df.columns:
                     speed = self.speed_df.loc[step,edge.id]
                     rgb = self.colorbar(min(max(0,speed/edge.max_speed),0.99))
-                def draw_edge(rgb=(0,0,0)):
-                    if self.graph.edge_exists(edge.to,edge.fr):
-                        for idx in range(len(edge.fixed_points)-1):
-                            line = plt.Line2D((edge.fixed_points[idx].x,edge.fixed_points[idx+1].x),(edge.fixed_points[idx].y,edge.fixed_points[idx+1].y),color=rgb,linewidth=0.2*bias)
-                            ax.add_line(line)
-                    else:
-                        for idx in range(len(edge.pass_points)-1):
-                            line = plt.Line2D((edge.pass_points[idx].x,edge.pass_points[idx+1].x),(edge.pass_points[idx].y,edge.pass_points[idx+1].y),color=rgb,linewidth=0.2*bias)
-                            ax.add_line(line)
-                draw_edge(rgb)
-            ax.set_title('step:'+str(step*60))
+                def draw_edge(edge,rgb=(0,0,0)):
+                    #if self.graph.edge_exists(edge.to,edge.fr):
+                    print(edge)
+                    for idx in range(len(edge.fixed_points)-1):
+                        line = plt.Line2D((edge.fixed_points[idx].x,edge.fixed_points[idx+1].x),(edge.fixed_points[idx].y,edge.fixed_points[idx+1].y),color=rgb,linewidth=0.5)
+                        ax.add_line(line)
+                    # else:
+                    #     for idx in range(len(edge.pass_points)-1):
+                    #         line = plt.Line2D((edge.pass_points[idx].x,edge.pass_points[idx+1].x),(edge.pass_points[idx].y,edge.pass_points[idx+1].y),color=rgb,linewidth=0.2*bias)
+                    #         ax.add_line(line)
+                draw_edge(edge,rgb)
+            ax.set_title('step:'+str(step*60),fontsize=5)
         #plt.savefig(self.visualization+'speed_graph.png')
         plt.show()
     
     def show_graph_with_trajectory(self,vehicle_ids):
         fig = plt.figure(figsize=(10, 10), dpi= 80)
-        ax = fig.add_subplot(projection='3d')
+        ax = fig.add_subplot(111, projection='3d')
         ax.grid(False)
         ax.set_xticks([])
         ax.set_yticks([])   
@@ -318,6 +354,30 @@ class Visualization:
         ax.yaxis.pane.set_visible(False)
         def draw_base_graph():
             step = self.anomalyStart
+            '''
+            if self.sce == 'real_world_streets' or self.sce == 'real_world_expressways':
+                min_x,max_x,min_y,max_y = self.graph.get_border()
+
+                osm_tiles = cimgt.OSM()
+                crs = ccrs.PlateCarree()
+                fig_2d = plt.figure(dpi=10)
+                ax_2d = fig_2d.add_subplot(111,projection=ccrs.PlateCarree())
+                ax_2d.axis('off')
+                ax_2d.set_aspect(1)
+                ax_2d.add_image(osm_tiles, 15)
+                expandx = 0.1*(max_x-min_x)
+                expandy = 0.1*(max_y-min_y)
+                extent = [min_x-expandx,max_x+expandx,min_y-expandy,max_y+expandy]
+                ax_2d.set_extent(extent,crs=ccrs.PlateCarree())
+                fig_2d.canvas.draw()
+                map_image = np.array(fig_2d.canvas.renderer.buffer_rgba())   
+                plt.close(fig_2d)
+                x = np.linspace(extent[0], extent[1], map_image.shape[1])
+                y = np.linspace(extent[2], extent[3], map_image.shape[0])
+                x, y = np.meshgrid(x, y)
+                z = np.full(x.shape,self.anomalyStart-1)  # z=0平面
+                ax.plot_surface(x, y, z, rstride=1, cstride=1, facecolors=map_image / 255, shade=False,zorder=0,alpha=0.1)
+            '''
             min_x,max_x,min_y,max_y = self.graph.get_border()
             ax.set_xlim(min_x-self.borderwidth*(max_x-min_x),max_x+self.borderwidth*(max_x-min_x))
             ax.set_ylim(min_y-self.borderwidth*(max_y-min_y),max_y+self.borderwidth*(max_y-min_y))
@@ -325,12 +385,8 @@ class Visualization:
             self.graph.set_bias(bias)
             for id,edge in self.graph.edges.items():
                 def draw_edge(rgb=(0,0,0)):
-                    if self.graph.edge_exists(edge.to,edge.fr):
-                        for idx in range(len(edge.fixed_points)-1):
-                            ax.plot3D((edge.fixed_points[idx].x,edge.fixed_points[idx+1].x),(edge.fixed_points[idx].y,edge.fixed_points[idx].y),(step,step),color=rgb,linewidth=0.2*bias)
-                    else:
-                        for idx in range(len(edge.pass_points)-1):
-                            ax.plot3D((edge.pass_points[idx].x,edge.pass_points[idx+1].x),(edge.pass_points[idx].y,edge.pass_points[idx+1].y),(step,step),color=rgb,linewidth=0.2*bias)
+                    for idx in range(len(edge.fixed_points)-1):
+                        ax.plot3D((edge.fixed_points[idx].x,edge.fixed_points[idx+1].x),(edge.fixed_points[idx].y,edge.fixed_points[idx+1].y),(step,step),color=rgb,zorder=1)
                 draw_edge()
         draw_base_graph()
         for vehicle_id in vehicle_ids:
@@ -341,17 +397,22 @@ class Visualization:
             vtrajectory[['x','y']] = vtrajectory.apply(lambda x:self.cal_edge_pos(x['edge_id'],x['vehicle_pos']),axis=1).apply(pd.Series)
 
             series_sel = vtrajectory[(vtrajectory['timestep_time']>=self.anomalyStart) & (vtrajectory['timestep_time']<=self.anomalyEnd)]
-            ax.plot(series_sel['x'],series_sel['y'],series_sel['timestep_time'])
+            ax.plot(series_sel['x'],series_sel['y'],series_sel['timestep_time'],zorder=1)
 
         def draw_3D_surface(edge):
             edge = self.graph.edges[edge]
-            x = np.linspace(edge.fr.x,edge.to.x,int(edge.to.x-edge.fr.x))
+            x = np.linspace(edge.fr.x,edge.to.x,100)
             z = np.linspace(self.anomalyStart,self.anomalyEnd,self.anomalyEnd-self.anomalyStart)
             x,z = np.meshgrid(x,z)
             y = edge.fr.y + (edge.to.y-edge.fr.y)/(edge.to.x-edge.fr.x)*(x-edge.fr.x)
-            ax.plot_surface(x,y,z,color='r',alpha=0.3)
+            ax.plot_surface(x,y,z,color='r',alpha=0.3,zorder=1)
+        def draw_3D_line(node):
+            node = self.graph.nodes[node]
+            ax.plot3D((node.x,node.x),(node.y,node.y),(self.anomalyStart,self.anomalyEnd),color='r',zorder=1)
         if self.anomaly == 'speed_limit':
             draw_3D_surface(self.injectPos)
+        if self.anomaly == 'traffic_light_failure':
+            draw_3D_line(self.injectPos)
         #plt.savefig(self.visualization+'trajectory.png')
         plt.show()
 
@@ -417,8 +478,8 @@ if __name__ == '__main__':
         'scatterPos':'B2C2'
     }
     app.cal_sigma(0.7)
-    app.show_graph([25,75,125,175])
-    app.show_graph_with_trajectory(['passenger.0.0'])
+    app.show_graph([25,100,170])
+    app.show_graph_with_trajectory(['passenger.26.0'])
     '''
     '''
     configures = {
@@ -426,10 +487,10 @@ if __name__ == '__main__':
         'anomaly':'speed_limit',
         'injectPos':'1138642053',
         'anomalyStart':3000,
-        'anomalyEnd':9000
+        'anomalyEnd':9000,
     }
     app.cal_sigma(0.7)
-    app.show_graph([25,75,125,175])
+    app.show_graph([25,100,175])
     app.show_graph_with_trajectory(['passenger.0.0'])
     '''
     '''
@@ -449,19 +510,26 @@ if __name__ == '__main__':
     #app.show_graph_with_trajectory(['passenger.26.2'])
     app.show_scatter_plot()
     '''
+    '''
     configures = {
         'scenario':'parallel',
         'anomaly':'abrupt_flow',
-        'anomalyStart':600,
-        'anomalyEnd':7800,
-        'scatterPos':'508479313'
+    }'
+    '''
+    configures = {
+        'scenario':'real_world_expressways',
+        'anomaly':'speed_limit',
+        'injectPos':'123867444',
+        'anomalyStart':3710,
+        'anomalyEnd':4610,
+        'scatterPos':'157607691'
     }
     app = Visualization()
     app.set_args(**configures)
     app.generate_graph()
-    #app.cal_sigma(0.7)
-    app.show_graph([5,20,100,140])
+    # app.cal_sigma(0.7)
+    app.show_graph([25,100,175])
     #app.show_graph_with_trajectory(['passenger.26.2'])
-    app.show_scatter_plot()
+    #app.show_scatter_plot()
 
 

@@ -6,17 +6,16 @@ path = os.path.dirname(os.path.abspath(__file__)) + '/'
 
 if __name__ == '__main__':
     app = TRANSIT()
-    # 修改: 设置 optionxform 为 str，以区分大小写
     parser = configparser.ConfigParser()
     parser.optionxform = str
-    scenario = 'theoretical_streets'
+    scenario = 'real_world_expressways'
     '''
     'theoretical_streets'
     'real_world_streets'
     'real_world_expressways'
     'parallel'
     '''
-    anomaly = 'speed_limit'
+    anomaly = 'abrupt_flow'
     '''
     'speed_limit'
     'traffic_light_failure'
@@ -29,6 +28,8 @@ if __name__ == '__main__':
 
     # 修改: 将配置中的值转换为 int 或 float 类型
     for key, value in configure.items():
+        if key == 'anomalyPos':
+            continue
         try:
             configure[key] = int(value)
         except ValueError:

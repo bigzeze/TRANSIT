@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-01-14 17:55:48.840690 by randomTrips.py v1_16_0+0000-94ec4c6cd72
+<!-- generated on 2025-04-27 21:17:31.456912 by randomTrips.py v1_16_0+0000-94ec4c6cd72
 <configuration>
     <begin value="0"/>
     <end value="1"/>
-    <flows value="25"/>
+    <flows value="21"/>
     <jtrrouter value="True"/>
-    <net-file value="h:\TRANSIT\bin/../models/real_world_streets/road.net.xml"/>
+    <net-file value="g:\TRANSIT\src/../models/real_world_streets/road.net.xml"/>
     <trip-attributes value="departPos='random' departSpeed='max'"/>
-    <output-trip-file value="h:\TRANSIT\bin/../models/real_world_streets//bus.flow.xml"/>
+    <output-trip-file value="g:\TRANSIT\src/../models/real_world_streets//bus.flow.xml"/>
     <vehicle-class value="bus"/>
 </configuration>
 -->
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     <vType id="bus" vClass="bus"/>
-    <flow id="bus.0" begin="0" end="1" period="25" from="1138642157" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.1" begin="0" end="1" period="25" from="1138642088" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.2" begin="0" end="1" period="25" from="1138642175" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.3" begin="0" end="1" period="25" from="221696379" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.4" begin="0" end="1" period="25" from="1138642116" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.5" begin="0" end="1" period="25" from="1138642077" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.6" begin="0" end="1" period="25" from="-5678419" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.7" begin="0" end="1" period="25" from="1138642159" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.8" begin="0" end="1" period="25" from="1138642077" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.9" begin="0" end="1" period="25" from="1138642189" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.10" begin="0" end="1" period="25" from="1138642189" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.11" begin="0" end="1" period="25" from="1138642100" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.12" begin="0" end="1" period="25" from="618977200" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.13" begin="0" end="1" period="25" from="1138642052" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.14" begin="0" end="1" period="25" from="1138642197" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.15" begin="0" end="1" period="25" from="1138642189" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.16" begin="0" end="1" period="25" from="1138642137" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.17" begin="0" end="1" period="25" from="1138642107" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.18" begin="0" end="1" period="25" from="1138642193" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.19" begin="0" end="1" period="25" from="1138642199" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.20" begin="0" end="1" period="25" from="1138642169" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.21" begin="0" end="1" period="25" from="1138642079" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.22" begin="0" end="1" period="25" from="1138642050" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.23" begin="0" end="1" period="25" from="1138642054" departPos='random' departSpeed='max' type="bus"/>
-    <flow id="bus.24" begin="0" end="1" period="25" from="1138642156" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.0" begin="0" end="1" period="21" from="1138642157" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.1" begin="0" end="1" period="21" from="1138642088" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.2" begin="0" end="1" period="21" from="1138642175" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.3" begin="0" end="1" period="21" from="221696379" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.4" begin="0" end="1" period="21" from="1138642116" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.5" begin="0" end="1" period="21" from="1138642077" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.6" begin="0" end="1" period="21" from="-5678419" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.7" begin="0" end="1" period="21" from="1138642159" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.8" begin="0" end="1" period="21" from="1138642077" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.9" begin="0" end="1" period="21" from="1138642189" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.10" begin="0" end="1" period="21" from="1138642189" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.11" begin="0" end="1" period="21" from="1138642100" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.12" begin="0" end="1" period="21" from="618977200" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.13" begin="0" end="1" period="21" from="1138642052" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.14" begin="0" end="1" period="21" from="1138642197" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.15" begin="0" end="1" period="21" from="1138642189" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.16" begin="0" end="1" period="21" from="1138642137" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.17" begin="0" end="1" period="21" from="1138642107" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.18" begin="0" end="1" period="21" from="1138642193" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.19" begin="0" end="1" period="21" from="1138642199" departPos='random' departSpeed='max' type="bus"/>
+    <flow id="bus.20" begin="0" end="1" period="21" from="1138642169" departPos='random' departSpeed='max' type="bus"/>
 </routes>

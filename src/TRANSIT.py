@@ -277,10 +277,13 @@ class TRANSIT(Functions):
         self.tripInfoFile = self.sce_output + 'tripinfo.out.xml'
         self.trajectoryFile = self.sce_output + 'trajectory.out.xml'
         self.eventSequenceFile = self.sce_output + 'events.txt'
+        self.prevent_loot = False
+        if self.sce == 'theoretical_streets' or self.sce == 'real_world_streets':
+            self.prevent_loot = True
         if not self.trajectoryOutput:
-            self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,verbose=self.verbose,additional_file=self.detctorFile)
+            self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,prevent_loot=self.prevent_loot,verbose=self.verbose,additional_file=self.detctorFile)
         else:
-            self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,verbose=self.verbose,additional_file=self.detctorFile,netoutput_file=self.trajectoryFile)
+            self.sumoInterface = SUMOInterface(sumoBinary,self.roadFile,self.routeFile,self.statisticsFile,self.tripInfoFile,prevent_loot=self.prevent_loot,verbose=self.verbose,additional_file=self.detctorFile,netoutput_file=self.trajectoryFile)
         self.packingAnomaly()
         # for manually setted multianomalies
         # self.anomalyPack = [SpeedLimit(self.sumoInterface,3000,6000,'C2D2',0.1),\

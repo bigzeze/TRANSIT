@@ -41,7 +41,7 @@ class Edge():
         self.max_speed = max_speed
 
 class SUMOInterface:
-    def __init__(self,sumoBinary,net_file,route_file,statistic_file,tripinfo_file,verbose=False,**kargs) -> None:
+    def __init__(self,sumoBinary,net_file,route_file,statistic_file,tripinfo_file,prevent_loot=False,verbose=False,**kargs) -> None:
         self.sumoBinary = sumoBinary
         self.net_file = net_file
         self.route_file =route_file
@@ -52,7 +52,8 @@ class SUMOInterface:
         self.routes = {}
         self.vids = {}
         self.edges = {}
-        self.threshold = 120
+        self.prevent_loot = prevent_loot
+        self.threshold = 300
         self.eventfile = None
         #self.build_vehicle_table()
     
@@ -136,7 +137,8 @@ class SUMOInterface:
                     #     self.edges[eid].set_max_speed(max([traci.lane.getMaxSpeed(eid+'_'+str(i)) for i in range(traci.edge.getLaneNumber(eid))]))
             traci.simulationStep()
             self.regenerate_and_update()
-            #self.prevent_loot_congetsion(self.threshold)
+            if self.prevent_loot:
+                self.prevent_loot_congetsion(self.threshold)
             #if self.eventfile:
             #    self.object_event_sequence(step)
             for event in events:

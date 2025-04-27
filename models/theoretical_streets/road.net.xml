@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-04-25 17:30:59 by Eclipse SUMO netgenerate Version 1.18.0
+<!-- generated on 2025-04-27 19:22:06 by Eclipse SUMO netgenerate Version 1.16.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netgenerateConfiguration.xsd">
 
     <grid_network>
@@ -10,7 +10,7 @@
     </grid_network>
 
     <output>
-        <output-file value="D:\TRANSIT\src/../models/theoretical_streets/road.net.xml"/>
+        <output-file value="g:\TRANSIT\src/../models/theoretical_streets/road.net.xml"/>
     </output>
 
     <building_defaults>

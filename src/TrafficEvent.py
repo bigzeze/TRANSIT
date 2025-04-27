@@ -69,7 +69,9 @@ class SpeedLimit(Event):
         s0 = 7.5
         tr = 1
         self.original_speed = {}
+        print(self.pos)
         lane_number = traci.edge.getLaneNumber(self.pos)
+        print(lane_number)
         for lane_n in range(lane_number):
             lane_id = self.pos + '_' +str(lane_n)
             orgspeed =  traci.lane.getMaxSpeed(lane_id)
@@ -200,11 +202,11 @@ class AbruptFlow(Event):
     def inject(self):
         super().inject()
         self.injectedVehicles = []
-        print(traci.route.getIDList())
+        #print(traci.route.getIDList())
         if self.pos in traci.route.getIDList():
             for i in range(int(self.alpha)):        
                 traci.vehicle.add(vehID='anomaly'+str(i),routeID=self.pos,depart=self.step+i,departPos='random',departSpeed='max')
-                print(f'vehicle {i} injected at step {self.step+i}')
+                #print(f'vehicle {i} injected at step {self.step+i}')
                 self.injectedVehicles.append('anomaly'+str(i))
         else:
             vehicles = traci.vehicle.getIDList()
