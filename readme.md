@@ -46,7 +46,7 @@ To customize the simulation, you may:
 
 You can download real world maps and put it in the `inputs` folder, then specify the file in `ini` file. TRANSIT will automatically convert it and use it in the simulation. Fine-tuning the map in `models\yours_cenario\road.net.xml` using Netedit tool of SUMO is optional.
 
-# Dataset
+## Dataset
 
 TRANSIT provides multi-modal datasets, including: fixed detector data, floating car data and  event sequence data. If you run the `src\run.py` you can find your dataset in `datasets` folder. We also provide a default dataset at [TRANSIT multimodal dataset](https://www.kaggle.com/datasets/bigzeze/transit-dataset/data).
 
