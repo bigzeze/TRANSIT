@@ -48,7 +48,7 @@ You can download real world maps and put it in the `inputs` folder, then specify
 
 # Dataset
 
-TRANSIT provides multi-modal datasets, including: fixed detector data, floating car data and  event sequence data. If you run the `src\run.py` you can find your dataset in `datasets` folder. We also provide a default dataset at [TRANSIT multimodal dataset]().
+TRANSIT provides multi-modal datasets, including: fixed detector data, floating car data and  event sequence data. If you run the `src\run.py` you can find your dataset in `datasets` folder. We also provide a default dataset at [TRANSIT multimodal dataset](https://www.kaggle.com/datasets/bigzeze/transit-dataset/data).
 
 ## Todo
 
